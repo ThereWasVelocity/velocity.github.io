@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vortex Tools ✨ Anime Edition</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:'Fredoka',Tahoma,sans-serif;overflow-x:hidden;color:#4a044e;}
+
+/* Background with magical anime gradient */
+body {
+  background: linear-gradient(135deg, #fff0f8 0%, #ffe0f0 25%, #ffcfe4 50%, #ffb8d8 75%, #ff9ecb 100%);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(255, 105, 180, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(186, 85, 211, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 192, 203, 0.15) 0%, transparent 50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* Floating sakura petals background */
+.petal {
+  position: fixed;
+  top: -10%;
+  font-size: 1.5rem;
+  z-index: 0;
+  pointer-events: none;
+  animation: fall linear infinite;
+  color: #ff69b4;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Loading screen */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fff0f8, #ffcfe4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  background: url('https://z-cdn-media.chatglm.cn/files/64260d22-151a-4a9e-8263-fcfdae602a83.jpg?auth_key=1882468797-dcc014347cb24420a4ba82bf91ad77a1-0-a3aac532c753b87ff769abe34cb3dea1') center/cover;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 0 5px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.6);
+  margin-bottom: 25px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 5px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.6); }
+  50% { transform: scale(1.1); box-shadow: 0 0 0 8px #ff1493, 0 0 50px rgba(255, 105, 180, 0.8); }
+}
+
+.loading-text {
+  color: #d6336c;
+  font-family: 'Mochiy Pop One', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 10px rgba(255, 105, 180, 0.5);
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Header */
+header{
+  padding:20px 30px;
+  text-align:left;
+  position:relative;
+  z-index:10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  animation: slideDown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 10px 35px rgba(255, 105, 180, 0.15);
+  margin: 0 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-top: none;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.mascot-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: url('https://z-cdn-media.chatglm.cn/files/64260d22-151a-4a9e-8263-fcfdae602a83.jpg?auth_key=1882468797-dcc014347cb24420a4ba82bf91ad77a1-0-a3aac532c753b87ff769abe34cb3dea1') center/cover;
+  border: 3px solid #ff69b4;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+  animation: float 3s ease-in-out infinite, spin 10s linear infinite;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.mascot-avatar:hover {
+  transform: scale(1.2) !important;
+  animation-play-state: paused;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes spin {
+  from { border-radius: 50%; }
+  50% { border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; }
+  to { border-radius: 50%; }
+}
+
+.logo {
+  font-family: 'Mochiy Pop One', cursive;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff1493, #c71585, #ff69b4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Search Box */
+.search-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 550px;
+  animation: zoomIn 1s ease;
+  position: relative;
+  margin-left: auto;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-box {
+  padding: 15px 20px 15px 50px;
+  border-radius: 50px;
+  border: 3px solid transparent;
+  background: rgba(255, 255, 255, 0.95);
+  color: #4a044e;
+  width: 100%;
+  font-size: 1rem;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
+  outline: none;
+}
+
+.search-box:focus {
+  border-color: #ff1493;
+  box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.2), 0 8px 30px rgba(255, 105, 180, 0.3);
+  transform: scale(1.02);
+  background: #fff;
+}
+
+.search-box::placeholder {
+  color: #f692bc;
+  font-weight: 400;
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff1493;
+  font-size: 1.2rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus ~ .search-icon {
+  transform: translateY(-50%) scale(1.2) rotate(15deg);
+  color: #c71585;
+}
+
+/* Container & Grid */
+.container{position:relative;z-index:1; padding: 0 20px;}
+.grid{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:25px;margin-top:40px
+}
+
+/* Cards */
+.card{
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius:25px;
+  padding:30px 25px;
+  width:260px;
+  text-align:center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: #4a044e;
+  position: relative;
+  overflow: hidden;
+  animation: cardAppear 0.6s ease forwards;
+  opacity: 0;
+  transform: translateY(30px) scale(0.8);
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.card::before {
+  content: '✨';
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  transition: all 0.5s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+  transform: scale(1) rotate(180deg);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 105, 180, 0.1), transparent);
+  transform: rotate(45deg) translate(-100%, -100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  transform: rotate(45deg) translate(100%, 100%);
+}
+
+.card:hover{
+  transform: scale(1.08) translateY(-10px) rotate(-2deg);
+  box-shadow: 0 25px 50px rgba(255, 20, 147, 0.25);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #ff1493, #ff69b4, #c71585);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 5px 10px rgba(255, 105, 180, 0.3));
+}
+
+.card:hover .card-icon {
+  transform: scale(1.2) rotate(-10deg) translateY(-5px);
+}
+
+.card h3{
+  font-family: 'Mochiy Pop One', cursive;
+  font-size:1.3rem;
+  margin-bottom:12px;
+  color: #c71585;
+  font-weight: 400;
+  transition: transform 0.3s ease;
+}
+
+.card:hover h3 {
+  transform: scale(1.05);
+  color: #ff1493;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: #a04060;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+@keyframes cardAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+  padding:12px 28px;
+  border-radius:50px;
+  background: linear-gradient(135deg, #ff1493, #c71585);
+  color: white;
+  text-decoration:none;
+  font-weight:600;
+  font-size: 1rem;
+  transition:all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+  font-family: 'Fredoka', sans-serif;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  left: 0;
+}
+
+.btn:hover{
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Category View */
+#category-view{
+  display:none;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.category-header{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin:30px 0 25px;
+  width: 100%;
+  animation: slideInLeft 0.5s ease;
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 20px;
+  border-radius:50px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #c71585;
+  text-decoration:none;
+  cursor:pointer;
+  border: 2px solid rgba(255, 105, 180, 0.2);
+  transition:all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1);
+  font-weight: 600;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.9rem;
+}
+
+.back:hover{
+  background: #ff1493;
+  color: white;
+  transform: translateX(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
+  border-color: #ff1493;
+}
+
+.category-title{
+  font-family: 'Mochiy Pop One', cursive;
+  font-size:1.8rem;
+  font-weight: 400;
+  background: linear-gradient(135deg, #ff1493, #c71585, #ff69b4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Tool Cards */
+.tool-card{
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius:20px;
+  width:230px;
+  padding:25px 18px;
+  text-align:center;
+  transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card:hover{
+  border-color: rgba(255, 20, 147, 0.4);
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 20px 40px rgba(255, 20, 147, 0.2);
+}
+
+.tool-card h4{
+  font-family: 'Mochiy Pop One', cursive;
+  font-size:1.05rem;
+  margin-bottom:15px;
+  color: #c71585;
+  font-weight: 400;
+}
+
+.tool-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  padding:10px 22px;
+  border-radius:50px;
+  background: linear-gradient(135deg, #ff1493, #c71585);
+  color: white;
+  font-weight:600;
+  font-size: 0.9rem;
+  text-decoration:none;
+  transition:all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+  font-family: 'Fredoka', sans-serif;
+}
+
+.tool-link:hover{
+  background: linear-gradient(135deg, #c71585, #ff1493);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+}
+
+/* Footer */
+footer{
+  width:calc(100% - 40px);
+  padding:20px 30px;
+  text-align:center;
+  color: #a04060;
+  font-size:1rem;
+  margin-top:50px;
+  position:relative;
+  z-index:1;
+  animation: fadeInUp 1s ease;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 30px 30px 0 0;
+  box-shadow: 0 -10px 30px rgba(255, 105, 180, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-bottom: none;
+  font-weight: 600;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+footer img{
+  width:24px;
+  height:24px;
+  vertical-align:middle;
+  transition: transform 0.3s ease;
+  margin-left: 8px;
+  filter: drop-shadow(0 2px 5px rgba(255, 105, 180, 0.3));
+}
+
+footer img:hover {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 18px 20px;
+  }
+  
+  .search-container {
+    margin: 0 auto;
+  }
+  
+  .grid {
+    gap: 18px;
+  }
+  
+  .card, .tool-card {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  footer {
+    margin: 50px 10px 0 10px;
+    width: calc(100% - 20px);
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 240, 248, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  border-radius: 10px;
+  border: 2px solid #fff0f8;
+  transition: all 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #c71585, #ff1493);
+  box-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+}
+
+/* Notification animation */
+.notification {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  padding: 15px 30px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #c71585;
+  border: 2px solid rgba(255, 20, 147, 0.3);
+  border-radius: 50px;
+  box-shadow: 0 15px 40px rgba(255, 20, 147, 0.25);
+  z-index: 1000;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(15px);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification i {
+  color: #ff1493;
+  font-size: 1.4rem;
+  animation: beat 1s ease infinite;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.notification.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Global search results */
+#global-search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(255, 20, 147, 0.2);
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 105, 180, 0.2);
+  padding: 12px;
+}
+
+.search-result-item {
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-result-item:hover {
+  background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(255, 105, 180, 0.05));
+  border-color: rgba(255, 20, 147, 0.3);
+  transform: translateX(8px) scale(1.02);
+}
+
+.search-result-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff1493, #ff69b4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(255, 20, 147, 0.3);
+}
+
+.search-result-content {
+  flex: 1;
+  text-align: left;
+}
+
+.search-result-name {
+  font-weight: 600;
+  color: #4a044e;
+  font-size: 0.95rem;
+}
+
+.search-result-category {
+  font-size: 0.8rem;
+  color: #a04060;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-highlight {
+  background-color: rgba(255, 20, 147, 0.2);
+  color: #c71585;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.no-results {
+  padding: 40px 15px;
+  text-align: center;
+  color: #a04060;
+}
+
+.no-results i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #ff69b4;
+  display: block;
+  animation: sad 2s ease infinite;
+}
+
+@keyframes sad {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loader"></div>
+  <div class="loading-text">✨ Vortex Tools ✨</div>
+</div>
+
+<header>
+  <div class="logo-container">
+    <div class="mascot-avatar" title="Madoka-chan!"></div>
+    <div class="logo">
+      <i class="fas fa-magic"></i> Vortex
+    </div>
+  </div>
+  <div class="search-container">
+    <div class="search-wrapper">
+      <input type="text" class="search-box" id="search-box" placeholder="Search for magic tools..." autocomplete="off">
+      <i class="fas fa-search search-icon"></i>
+      <div id="global-search-results"></div>
+    </div>
+  </div>
+</header>
+
+<main id="home" class="container">
+  <div class="grid">
+    <div class="card" style="animation-delay: 0.1s">
+      <div class="card-icon"><i class="fas fa-shield-heart"></i></div>
+      <h3>Redlotus</h3>
+      <p class="card-desc">Advanced system analysis tools</p>
+      <button class="btn" onclick="showCategory('system')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+    <div class="card" style="animation-delay: 0.2s">
+      <div class="card-icon"><i class="fas fa-network-wired"></i></div>
+      <h3>Nirsoft</h3>
+      <p class="card-desc">Network & system utilities</p>
+      <button class="btn" onclick="showCategory('network')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+    <div class="card" style="animation-delay: 0.3s">
+      <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+      <h3>Epokw</h3>
+      <p class="card-desc">Forensic analysis tools</p>
+      <button class="btn" onclick="showCategory('analysis')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+    <div class="card" style="animation-delay: 0.4s">
+      <div class="card-icon"><i class="fas fa-tools"></i></div>
+      <h3>Vortex</h3>
+      <p class="card-desc">All-in-one screen share tools</p>
+      <button class="btn" onclick="showCategory('misc')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+    <div class="card" style="animation-delay: 0.5s">
+      <div class="card-icon"><i class="fas fa-database"></i></div>
+      <h3>Zimmerman</h3>
+      <p class="card-desc">Digital forensic suite</p>
+      <button class="btn" onclick="showCategory('zimmerman')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+    <div class="card" style="animation-delay: 0.6s">
+      <div class="card-icon"><i class="fas fa-ellipsis"></i></div>
+      <h3>More</h3>
+      <p class="card-desc">Additional tools & utilities</p>
+      <button class="btn" onclick="showCategory('more')">
+        <i class="fas fa-folder-open"></i> Open
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- CATEGORY VIEW -->
+<section id="category-view" class="container">
+  <div class="category-header">
+    <button class="back" onclick="goHome()">
+      <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <div class="category-title" id="category-title">Category</div>
+  </div>
+  <div id="tools-grid" class="grid"></div>
+</section>
+
+<footer>
+  Made with 💖 by Bridgezan / Therewasvelocity
+  <a href="https://discord.gg/QrzeN2hHK4" target="_blank">
+    <img src="https://img.icons8.com/ios-glyphs/30/ff1493/discord.png" alt="Discord">
+  </a>
+</footer>
+
+<!-- Notification element -->
+<div class="notification" id="notification">
+  <i class="fas fa-heart"></i>
+  <span id="notification-text"></span>
+</div>
+
+<script>
+// Create falling petals
+const petalEmojis = ['🌸', '✿', '❀', '💖', '✨'];
+for(let i=0; i<25; i++) {
+  const petal = document.createElement('div');
+  petal.className = 'petal';
+  petal.innerHTML = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+  petal.style.animationDelay = Math.random() * 5 + 's';
+  petal.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+  petal.style.opacity = Math.random() * 0.6 + 0.4;
+  document.body.appendChild(petal);
+}
+
+// Simulate loading
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('loading-screen').style.opacity = '0';
+    setTimeout(function() {
+      document.getElementById('loading-screen').style.display = 'none';
+    }, 500);
+  }, 1500);
+});
+
+// Tool data
+const DATA = {
+  system: {
+    title: "Redlotus",
+    icon: "fa-shield-heart",
+    tools: [
+      { name: "manual tasks", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/nolww/project-mohr/refs/heads/main/ManualTasks.ps1')" },
+      { name: "ModAnalyzer", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/HabibiHadron/HabibiModAnalyzer/refs/heads/main/HabibiModAnalyzer.ps1)" },
+      { name: "path", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/bacanoicua/Screenshare/main/RedlotusSignatures.ps1)" },
+      { name: "prefetch checker", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/bacanoicua/Screenshare/main/RedlotusPrefetchIntegrityAnalyzer.ps1)" },
+      { name: "Bam", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/PureIntent/ScreenShare/main/RedlotusBam.ps1)" },
+      { name: "SuspiciousScheduler", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/nolww/project-mohr/refs/heads/main/SuspiciousScheduler.ps1)" },
+      { name: "HardDiskVolumeConverter", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/bacanoicua/Screenshare/main/RedlotusHardDiskVolumeConverter.ps1)" },
+      { name: "ActivitiesCache", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/spokwn/powershells/refs/heads/main/activitiescache.ps1)" },
+      { name: "Streams", code: "powershell Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass && powershell Invoke-Expression (Invoke-RestMethod https://raw.githubusercontent.com/spokwn/powershells/refs/heads/main/Streams.ps1)" }
+    ]
+  },
+  network: {
+    title: "Nirsoft",
+    icon: "fa-network-wired",
+    tools: [
+      { "name": "WinPrefetchView", url: "https://www.nirsoft.net/utils/winprefetchview-x64.zip" },
+      { "name": "USBDriveLog", url: "https://www.nirsoft.net/utils/usbdrivelog.zip" },
+      { "name": "USBDeview", url: "https://www.nirsoft.net/utils/usbdeview-x64.zip" },
+      { "name": "LastActivityView", url: "https://www.nirsoft.net/utils/lastactivityview.zip" },
+      { "name": "ShellBagsView", url: "https://www.nirsoft.net/utils/shellbagsview.zip" },
+      { "name": "NirCmd", url: "https://www.nirsoft.net/utils/nircmd.zip" },
+      { "name": "NetworkTrafficView", url: "https://www.nirsoft.net/utils/networktrafficview.zip" },
+      { "name": "TaskSchedulerView", url: "https://www.nirsoft.net/utils/taskschedulerview-x64.zip" },
+      { "name": "BrowsingHistoryView", url: "https://www.nirsoft.net/utils/browsinghistoryview-x64.zip" },
+      { "name": "FullEventLogView", url: "https://www.nirsoft.net/utils/fulleventlogview-x64.zip" },
+      { "name": "HashMyFiles", url: "https://www.nirsoft.net/utils/hashmyfiles-x64.zip" },
+      { "name": "EncryptedRegView", url: "https://www.nirsoft.net/toolsdownload/encryptedregview-x64.zip" },
+      { "name": "DataProtectionDecryptor", url: "https://www.nirsoft.net/toolsdownload/dataprotectiondecryptor-x64.zip" },
+      { "name": "NetworkUsageView", url: "https://www.nirsoft.net/utils/networkusageview-x64.zip" }
+    ]
+  },
+  analysis: {
+    title: "Epokw",
+    icon: "fa-chart-line",
+    tools: [
+      { name: "BAM Parser", url: "https://github.com/spokwn/BAM-parser/releases/download/v1.2.9/BAMParser.exe" },
+      { name: "Prefetch Parser", url: "https://github.com/spokwn/prefetch-parser/releases/download/v1.5.5/PrefetchParser.exe" },
+      { name: "PcaSvc", url: "https://github.com/spokwn/pcasvc-executed/releases/download/v0.8.6/PcaSvcExecuted.exe" },
+      { name: "ProcessParser", url: "https://github.com/spokwn/process-parser/releases/download/v0.5.5/ProcessParser.exe" },
+      { name: "Espouken Bitrate", url: "https://github.com/spokwn/Tool/releases/download/v1.1.2/espoukenBitrate.exe" },
+      { name: "Kernel Live Dump Tool", url: "https://github.com/spokwn/KernelLiveDumpTool/releases/download/v1.1/KernelLiveDumpTool.exe" },
+      { name: "Bam Deleted Keys", url: "https://github.com/spokwn/BamDeletedKeys/releases/download/v1.0/BamDeletedKeys.exe" },
+      { name: "Activities Cache Execution", url: "https://github.com/spokwn/ActivitiesCache-execution/releases/tag/v0.6.5" },
+      { name: "Journal Trace Normal", url: "https://github.com/spokwn/JournalTrace/releases/download/1.2/JournalTraceNormal.exe" }
+    ]
+  },
+  misc: {
+    title: "Vortex",
+    icon: "fa-tools",
+    tools: [
+      { name: "all in one (bridgezan)", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/all-in-one-beta.ps1')" },
+      { name: "all in one (therewasvelocity)", code: "powershell -Command Set-ExecutionPolicy Bypass -Scope Process; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/ThereWasVelocity/SS-Tools/main/All-in-one.ps1')" },
+      { name: "downloader", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/downloader.ps1')" },
+      { name: "fielless bypass", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/fileless.ps1')" },
+      { name: "task shulder", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/Task-Scheduler-Checker.ps1')" },
+      { name: "services", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/services.ps1')" },
+      { name: "hwid", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/hwid.ps1')" },
+      { name: "mod analyzer", code: "powershell -Command Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/bridgerzan/screenshare-tools/refs/heads/main/mod-analyzer.ps1')" },
+      { name: "alt detector", code: "powershell -Command Set-ExecutionPolicy Bypass -Scope Process; Invoke-Expression (Invoke-RestMethod 'https://raw.githubusercontent.com/ThereWasVelocity/SS-Tools/main/Alt-Detector.ps1')" }
+    ]
+  },
+  zimmerman: {
+    title: "Zimmerman",
+    icon: "fa-database",
+    tools: [
+      { name: "AmcacheParser", url: "https://download.ericzimmermanstools.com/AmcacheParser.zip" },
+      { name: "AppCompatCacheParser", url: "https://download.ericzimmermanstools.com/AppCompatCacheParser.zip" },
+      { name: "bstrings", url: "https://download.ericzimmermanstools.com/bstrings.zip" },
+      { name: "hasher", url: "https://download.ericzimmermanstools.com/hasher.zip" },
+      { name: "JumpListExplorer", url: "https://download.ericzimmermanstools.com/net6/JumpListExplorer.zip" },
+      { name: "MFTECmd", url: "https://download.ericzimmermanstools.com/MFTECmd.zip" },
+      { name: "MFTExplorer", url: "https://download.ericzimmermanstools.com/net6/MFTExplorer.zip" },
+      { name: "PECmd", url: "https://download.ericzimmermanstools.com/PECmd.zip" },
+      { name: "RecentFileCacheParser", url: "https://download.ericzimmermanstools.com/RecentFileCacheParser.zip" },
+      { name: "RegistryExplorer", url: "https://download.ericzimmermanstools.com/net6/RegistryExplorer.zip" },
+      { name: "ShellBagsExplorer", url: "https://download.ericzimmermanstools.com/net6/ShellBagsExplorer.zip" }
+    ]
+  },
+  more: {
+    title: "More",
+    icon: "fa-ellipsis",
+    tools: [
+      { name: "Recuva", url: "https://soft98.ir/software/recovery-data/538-recuva.html" },
+      { name: "Windows 10 Live Information Viewer", url: "https://www.majorgeeks.com/files/details/windows_10_live_information_viewer.html" },
+      { name: "HxD Hex Editor", url: "https://www.yasdl.com/202566/hxd.html" },
+      { name: "BinText", url: "https://www.majorgeeks.com/files/details/bintext.html" },
+      { name: "Magnet RAM Capture", url: "https://www.magnetforensics.com/resources/magnet-ram-capture/" },
+      { name: "Process Hacker", url: "https://soft98.ir/software/821-process-hacker.html" },
+      { name: "System Informer (Canary)", url: "https://systeminformer.com/canary" },
+      { name: "Everything (VoidTools)", url: "https://www.voidtools.com/downloads/" },
+      { name: "FTK Imager (GitHub)", url: "https://github.com/codejanus/study_Security/tree/master/AccessData%20FTK%20Imager" },
+      { name: "Echo Journal Tool", url: "https://dl.echo.ac/tool/journal" },
+      { name: "Echo Tools (Free)", url: "https://echo.ac/free" },
+      { name: "Disk Investigator", url: "https://www.majorgeeks.com/files/details/disk_investigator.html" },
+      { name: "Detect It Easy (DIE)", url: "https://www.majorgeeks.com/files/details/detect_it_easy.html" },
+      { name: "DPsAnalyzer (GitHub)", url: "https://github.com/nay-cat/dpsanalyzer/releases/tag/1.3" },
+      { name: "AntiCheat AC (Main Download)", url: "https://anticheat.ac/download/" },
+      { name: "AntiCheat AC CLI", url: "https://anticheat.ac/downloads/general/cli" },
+      { name: "Jarabel Light", url: "https://github.com/nay-cat/Jarabel/releases/download/light/Jarabel.Light.exe" },
+      { name: "pcaparser", url: "https://github.com/AndrewRathbun/PCAParser/releases/tag/1.0" },
+      { name: "HWID-Extractore", url: "https://github.com/RRancio/HWID-extractors" },
+      { name: "Unicode", url: "https://github.com/RRancio/unicode" }
+    ]
+  }
+};
+
+// DOM elements
+const home = document.getElementById("home");
+const view = document.getElementById("category-view");
+const titleEl = document.getElementById("category-title");
+const grid = document.getElementById("tools-grid");
+const searchBox = document.getElementById("search-box");
+const notification = document.getElementById("notification");
+const notificationText = document.getElementById("notification-text");
+const searchResults = document.getElementById("global-search-results");
+
+// Copy text function
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification("Copied to clipboard! ✨");
+  });
+}
+
+// Show category function
+function showCategory(key){
+  const cat = DATA[key];
+  titleEl.innerHTML = `<i class="fas ${cat.icon}"></i> ${cat.title}`;
+  grid.innerHTML = "";
+  
+  cat.tools.forEach((t, index) => {
+    const div = document.createElement("div");
+    div.className = "tool-card";
+    div.style.animation = `cardAppear 0.5s ease forwards`;
+    div.style.animationDelay = `${index * 0.05}s`;
+    div.style.opacity = "0";
+    
+    div.innerHTML = `<h4>${t.name}</h4>` + 
+      (t.code 
+      ? `<button class="tool-link" onclick="copyText(\`${t.code}\`)"><i class="fas fa-copy"></i> Copy</button>` 
+      : `<a href="${t.url}" class="tool-link" target="_blank"><i class="fas fa-download"></i> Download</a>`);
+    grid.appendChild(div);
+  });
+  
+  home.style.display = "none";
+  view.style.display = "block";
+  searchResults.style.display = "none";
+  showNotification(`Showing ${cat.title} tools 🌸`);
+}
+
+// Go back to home
+function goHome(){
+  view.style.display = "none";
+  home.style.display = "block";
+  searchBox.value = "";
+  searchResults.style.display = "none";
+  showNotification("Back to main menu 💖");
+}
+
+// Highlight matching text in search results
+function highlightText(text, searchTerm) {
+  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+// Global search functionality
+searchBox.addEventListener('input', function() {
+  const searchTerm = this.value.toLowerCase().trim();
+  
+  if (searchTerm.length < 1) {
+    searchResults.style.display = "none";
+    return;
+  }
+  
+  searchResults.innerHTML = "";
+  let hasResults = false;
+  let resultCount = 0;
+  const maxResults = 20;
+  
+  for (const [categoryKey, category] of Object.entries(DATA)) {
+    if (resultCount >= maxResults) break;
+    
+    for (const tool of category.tools) {
+      if (resultCount >= maxResults) break;
+      
+      if (tool.name.toLowerCase().includes(searchTerm)) {
+        hasResults = true;
+        resultCount++;
+        const resultItem = document.createElement("div");
+        resultItem.className = "search-result-item";
+        resultItem.innerHTML = `
+          <div class="search-result-icon">
+            <i class="fas ${category.icon}"></i>
+          </div>
+          <div class="search-result-content">
+            <div class="search-result-name">${highlightText(tool.name, searchTerm)}</div>
+            <div class="search-result-category">
+              <i class="fas fa-folder" style="font-size: 0.7rem;"></i>
+              ${category.title}
+            </div>
+          </div>
+          <i class="fas fa-chevron-right" style="color: #ff69b4; font-size: 0.8rem;"></i>
+        `;
+        
+        resultItem.addEventListener('click', () => {
+          showCategory(categoryKey);
+          setTimeout(() => {
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+              if (card.querySelector('h4').textContent === tool.name) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.animation = 'none';
+                setTimeout(() => {
+                  card.style.boxShadow = '0 0 30px rgba(255, 20, 147, 0.5)';
+                  card.style.transform = 'scale(1.08)';
+                  card.style.borderColor = '#ff1493';
+                  setTimeout(() => {
+                    card.style.boxShadow = '';
+                    card.style.transform = '';
+                    card.style.borderColor = '';
+                  }, 2500);
+                }, 10);
+              }
+            });
+          }, 100);
+          
+          searchResults.style.display = "none";
+          searchBox.value = "";
+        });
+        
+        searchResults.appendChild(resultItem);
+      }
+    }
+  }
+  
+  if (hasResults) {
+    searchResults.style.display = "block";
+  } else {
+    searchResults.innerHTML = `
+      <div class="no-results">
+        <i class="fas fa-sad-tear"></i>
+        No results found for "${searchTerm}"
+      </div>
+    `;
+    searchResults.style.display = "block";
+  }
+});
+
+// Hide search results when clicking outside
+document.addEventListener('click', function(e) {
+  if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) {
+    searchResults.style.display = "none";
+  }
+});
+
+// Show notification function
+function showNotification(message) {
+  notificationText.textContent = message;
+  notification.classList.add('show');
+  
+  clearTimeout(window.notificationTimeout);
+  window.notificationTimeout = setTimeout(() => {
+    notification.classList.remove('show');
+  }, 3000);
+}
+
+// Add animation on page load
+window.addEventListener('load', function() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+});
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (view.style.display === 'block') {
+      goHome();
+    } else if (searchResults.style.display === 'block') {
+      searchResults.style.display = 'none';
+      searchBox.value = "";
+    }
+  }
+  
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    searchBox.focus();
+  }
+  
+  if (e.key === 'Enter' && searchResults.style.display === 'block' && searchResults.querySelector('.search-result-item')) {
+    searchResults.querySelector('.search-result-item').click();
+  }
+});
+</script>
+
+</body>
+</html>
